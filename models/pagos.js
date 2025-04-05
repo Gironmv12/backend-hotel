@@ -1,5 +1,6 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+import { Sequelize } from 'sequelize';
+
+export default function(sequelize, DataTypes) {
   return sequelize.define('pagos', {
     no_pago: {
       autoIncrement: true,
@@ -16,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     metodo_pago: {
-      type: DataTypes.ENUM("Tarjeta","PayPal","Efectivo"),
+      type: DataTypes.ENUM("Tarjeta", "PayPal", "Efectivo"),
       allowNull: false
     },
     monto: {
@@ -24,14 +25,14 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     estado_pago: {
-      type: DataTypes.ENUM("Pendiente","Pagado","Rechazado"),
+      type: DataTypes.ENUM("Pendiente", "Pagado", "Rechazado"),
       allowNull: false,
       defaultValue: "Pendiente"
     },
     fecha_pago: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     },
     referencia_pago: {
       type: DataTypes.STRING(50),
@@ -60,4 +61,4 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-};
+}

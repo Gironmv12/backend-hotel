@@ -1,5 +1,6 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+import { Sequelize } from 'sequelize';
+
+export default function(sequelize, DataTypes) {
   return sequelize.define('cancelaciones', {
     no_cancelacion: {
       autoIncrement: true,
@@ -22,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
     fecha_cancelacion: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     },
     realizado_por: {
       type: DataTypes.STRING(100),
@@ -43,4 +44,4 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-};
+}

@@ -1,5 +1,6 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+import { Sequelize } from 'sequelize';
+
+export default function(sequelize, DataTypes) {
   return sequelize.define('servicios_contratados', {
     id_servicio_reserva: {
       autoIncrement: true,
@@ -42,4 +43,4 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-};
+}

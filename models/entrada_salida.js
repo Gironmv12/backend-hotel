@@ -1,5 +1,6 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+import { Sequelize } from 'sequelize';
+
+export default function(sequelize, DataTypes) {
   return sequelize.define('entrada_salida', {
     id_verificacion: {
       autoIncrement: true,
@@ -46,4 +47,4 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-};
+}

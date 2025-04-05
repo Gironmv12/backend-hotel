@@ -2,6 +2,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database.js';
 
+import camasRoutes from './routes/camasRoute.js';
+import habitacionesRoutes from './routes/habitacionesRoute.js';
+
 import cors from 'cors';
 
 //cargar las variables de entorno
@@ -30,6 +33,13 @@ app.get('/', (req, res) => {
 
 //puesto de escucha
 const port = process.env.PORT || 3000;
+
+//usar las rutas importadas
+//ruta para camas
+app.use('/api', camasRoutes);
+
+//ruta para habitaciones
+app.use('/api', habitacionesRoutes);
 
 //inicializar la base de datos
 connectDB().then(() => {
