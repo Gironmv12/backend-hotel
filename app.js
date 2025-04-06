@@ -4,6 +4,7 @@ import { connectDB } from './config/database.js';
 
 import camasRoutes from './routes/camasRoute.js';
 import habitacionesRoutes from './routes/habitacionesRoute.js';
+import serviciosRoutes from './routes/serviciosRoute.js';
 
 import cors from 'cors';
 
@@ -40,6 +41,9 @@ app.use('/api', camasRoutes);
 
 //ruta para habitaciones
 app.use('/api', habitacionesRoutes);
+
+//ruta para servicios
+app.use('/api', serviciosRoutes);
 
 //inicializar la base de datos
 connectDB().then(() => {

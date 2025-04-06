@@ -4,7 +4,7 @@ import initModels from '../../models/init-models.js';
 import { body, validationResult } from 'express-validator';
 
 const models = initModels(sequelize);
-const { habitaciones } = models;
+const { habitaciones, tipos_cama } = models;
 
 const habitacion = express.Router();
 
@@ -83,10 +83,16 @@ habitacion.put('/actualizar-habitacion/:id',[
 
 //obtener habitaciones
 habitacion.get('/ver-habitaciones', async (req, res) => {
-    try{
-        const habitacionesList = await habitaciones.findAll();
+    try {
+        const habitacionesList = await habitaciones.findAll({
+            include: [{
+                model: tipos_cama,
+                as: 'id_tipo_cama_tipos_cama', // Usa el alias definido en init-models.js
+                attributes: ['nombre_tipo']
+            }]
+        });
         res.status(200).json(habitacionesList);
-    }catch(error){
+    } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al obtener las habitaciones' });
     }
