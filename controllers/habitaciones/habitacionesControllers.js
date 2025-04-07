@@ -98,4 +98,38 @@ habitacion.get('/ver-habitaciones', async (req, res) => {
     }
 });
 
+// Obtener solo habitaciones con estado "Disponible"
+habitacion.get('/habitaciones-disponibles', async (req, res) => {
+    try {
+      const disponibles = await habitaciones.findAll({
+        where: { estado_habitacion: 'Disponible' }
+      });
+      res.status(200).json(disponibles);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al obtener las habitaciones disponibles' });
+    }
+});
+
+habitacion.post('/seleccionar-habitacion/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const habitacionSeleccionada = await habitaciones.findByPk(id);
+  
+      if (!habitacionSeleccionada || habitacionSeleccionada.estado_habitacion !== 'Disponible') {
+        return res.status(400).json({ error: 'La habitación no está disponible para selección' });
+      }
+  
+      // Aquí podrías crear una reserva o marcar la habitación como ocupada, etc.
+      // Por ejemplo:
+      // habitacionSeleccionada.estado_habitacion = 'Ocupada';
+      // await habitacionSeleccionada.save();
+  
+      res.status(200).json({ message: 'Habitación seleccionada con éxito' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al seleccionar la habitación' });
+    }
+  });
+
 export default habitacion;

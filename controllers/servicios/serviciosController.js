@@ -4,7 +4,7 @@ import initModels from '../../models/init-models.js';
 import { body, validationResult } from 'express-validator';
 
 const models = initModels(sequelize);
-const { servicios } = models;
+const { servicios, servicios_contratados } = models;
 
 const servicio = express.Router();
 
@@ -97,6 +97,32 @@ servicio.delete('/eliminar-servicio/:id', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al eliminar el servicio' });
+    }
+});
+
+
+//agregar servicio a la reserva
+servicio.post('/agregar-servicio-reserva', [
+    body('cve_servicio').notEmpty().isInt().withMessage('El ID del servicio es requerido y debe ser un número entero'),
+    body('no_reserva').notEmpty().isInt().withMessage('El número de reserva es requerido y debe ser un número entero'),
+    body('cantidad_personas').notEmpty().isInt().withMessage('La cantidad de personas es requerida y debe ser un número entero')
+  ], async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+      return res.status(400).json({ errors: errors.array() });
+    }
+  
+    try {
+      const { cve_servicio, no_reserva, cantidad_personas } = req.body;
+      const nuevoServicioReserva = await servicios_contratados.create({
+        cve_servicio,
+        no_reserva,
+        cantidad_personas
+      });
+      return res.status(201).json({ message: 'Servicio vinculado a la reserva correctamente', servicioContratado: nuevoServicioReserva });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al vincular el servicio a la reserva' });
     }
 });
 

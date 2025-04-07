@@ -5,6 +5,8 @@ import { connectDB } from './config/database.js';
 import camasRoutes from './routes/camasRoute.js';
 import habitacionesRoutes from './routes/habitacionesRoute.js';
 import serviciosRoutes from './routes/serviciosRoute.js';
+import clientesRoute from './routes/clientesRoute.js';
+import pagosRoute from './routes/pagosRoute.js';
 
 import cors from 'cors';
 
@@ -44,6 +46,12 @@ app.use('/api', habitacionesRoutes);
 
 //ruta para servicios
 app.use('/api', serviciosRoutes);
+
+//ruta para clientes
+app.use('/api', clientesRoute);
+
+//ruta para pagos
+app.use('/api', pagosRoute);
 
 //inicializar la base de datos
 connectDB().then(() => {
