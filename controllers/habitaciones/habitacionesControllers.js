@@ -101,13 +101,19 @@ habitacion.get('/ver-habitaciones', async (req, res) => {
 // Obtener solo habitaciones con estado "Disponible"
 habitacion.get('/habitaciones-disponibles', async (req, res) => {
     try {
-      const disponibles = await habitaciones.findAll({
-        where: { estado_habitacion: 'Disponible' }
-      });
-      res.status(200).json(disponibles);
+        const disponibles = await habitaciones.findAll({
+            where: { estado_habitacion: 'Disponible' },
+            attributes: { exclude: ['id_tipo_cama'] },
+            include: [{
+                model: tipos_cama,
+                as: 'id_tipo_cama_tipos_cama', // alias definido en init-models.js
+                attributes: ['nombre_tipo']
+            }]
+        });
+        res.status(200).json(disponibles);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error al obtener las habitaciones disponibles' });
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener las habitaciones disponibles' });
     }
 });
 

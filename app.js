@@ -7,6 +7,7 @@ import habitacionesRoutes from './routes/habitacionesRoute.js';
 import serviciosRoutes from './routes/serviciosRoute.js';
 import clientesRoute from './routes/clientesRoute.js';
 import pagosRoute from './routes/pagosRoute.js';
+import reservacionRoute from './routes/reservacionRoute.js';
 
 import cors from 'cors';
 
@@ -35,7 +36,7 @@ app.get('/', (req, res) => {
 });
 
 //puesto de escucha
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 //usar las rutas importadas
 //ruta para camas
@@ -52,6 +53,9 @@ app.use('/api', clientesRoute);
 
 //ruta para pagos
 app.use('/api', pagosRoute);
+
+//ruta para reservaciones
+app.use('/api', reservacionRoute);
 
 //inicializar la base de datos
 connectDB().then(() => {

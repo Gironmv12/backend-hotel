@@ -11,7 +11,7 @@ const pago = express.Router();
 //registrar pago
 pago.post('/registrar-pago',[
     body('no_reserva').notEmpty().withMessage('El número de reserva es requerido'),
-    body('metodo_pago').notEmpty().isIn(['Efectivo','Tarjeta de crédito','Transferencia']).withMessage('Método de pago no válido'),
+    body('metodo_pago').notEmpty().isIn(['Efectivo','Tarjeta','PayPal']).withMessage('Método de pago no válido'),
     body('monto').notEmpty().isFloat().withMessage('El monto es requerido y debe ser un número'),
     body('estado_pago').optional().isIn(['Pendiente','Pagado','Rechazado']).withMessage('Estado de pago no válido'),
     body('referencia_pago').optional().isString().withMessage('La referencia de pago debe ser texto')
@@ -41,6 +41,17 @@ pago.post('/registrar-pago',[
         res.status(500).json({ error: 'Error al registrar el pago' });
     }
 
+})
+
+//obtener pagos
+pago.get('/pagos', async (req, res) =>{
+    try{
+        const pagosList = await pagos.findAll();
+        res.status(200).json(pagosList);
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los pagos' });
+    }
 })
 
 export default pago;
